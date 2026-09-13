@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const isGithubPages = process.env.GITHUB_ACTIONS === "true" || process.env.NEXT_PUBLIC_STATIC_DEMO === "true";
-const repo = "5-merit-loyalty-mvp";
+const repo = "Team-Empty-Sarajevo-Hackathon";
 
 const nextConfig = {
   output: isGithubPages ? "export" : undefined,

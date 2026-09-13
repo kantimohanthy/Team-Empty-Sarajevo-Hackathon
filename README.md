@@ -1,57 +1,80 @@
-# MERIT × G-Core — Behavioral Banking Loyalty Infrastructure
+# G-Core &bull; Behavioral Banking Loyalty Infrastructure
+### Created by Team EMPTY
 
-A fintech hackathon MVP: banks reward *financial discipline*, not just spending.
-Built with Next.js 14 (App Router), TypeScript, Tailwind CSS, Framer Motion, Recharts.
+> *"We don't reward wealth. We reward financial consistency in context."*
 
----
-
-## Live Deployments
-
-* **GitHub Pages Static Demo**: [kantimohanthy.github.io/5-merit-loyalty-mvp/](https://kantimohanthy.github.io/5-merit-loyalty-mvp/)
-* **Vercel Production**: [5-merit-loyalty-mvp.vercel.app](https://5-merit-loyalty-mvp.vercel.app/)
+Live GitHub Pages Demo: [https://kantimohanthy.github.io/Team-Empty-Sarajevo-Hackathon/](https://kantimohanthy.github.io/Team-Empty-Sarajevo-Hackathon/)
 
 ---
 
-## Local Development
+## 💡 Problem
+
+Traditional bank loyalty programs reward high spending, credit debt, or large account balances — favoring wealthy customers while ignoring healthy financial habits. Customers who manage tight budgets responsibly get zero portable recognition.
+
+---
+
+## 🔄 How G-Core Works
+
+```
+Banking Activity ➔ Financial Context ➔ Behavioral Evaluation ➔ Personalized Goals ➔ Rewards + GP ➔ Portable G-Core Status
+```
+
+1. **Banking Activity**: Daily transactions, savings transfers, and bill payments occur at XYZ Bank.
+2. **Financial Context**: Context engine distinguishes essential healthcare/emergencies from discretionary spending and filters out self-transfers.
+3. **Behavioral Evaluation**: Evaluates 5 core dimensions against personal historical baselines.
+4. **Personalized Goals**: Sets dynamic monthly targets based on the customer's own 3-month medians.
+5. **Rewards + GP**: Consistent behavior earns GP (G-Core Points) and tier progression.
+6. **Portable G-Core Status**: Pseudonymous G-Pass hash preserves status across participating network institutions.
+
+---
+
+## 📊 5 Behavioral Evaluation Dimensions
+
+| Dimension | Weight | Description |
+| :--- | :--- | :--- |
+| **Budget Discipline** | `30%` | Staying within personalized discretionary spending targets |
+| **Payment Consistency** | `25%` | On-time fixed obligations (rent, utilities, loans) |
+| **Savings Consistency** | `20%` | Regular monthly savings contributions, regardless of size |
+| **Liquidity Resilience** | `15%` | Maintaining positive account buffer without overdraft |
+| **Goal Consistency** | `10%` | Multi-month streak adherence and milestone completion |
+
+---
+
+## 🛡️ Context-Aware Intelligence & Privacy
+
+* **Healthcare Protection**: Emergency expenses (e.g., medical or laptop repairs) are classified as **PROTECTED** — preventing unfair penalties on discretionary budget targets.
+* **Anti-Gaming Transfer Filter**: Internal self-transfers between personal accounts are detected and excluded from behavioral score padding.
+* **Bank-Side Data Boundary**: Raw transaction logs and merchant details **never leave the bank**. G-Core only receives derived monthly evaluation events, G-Pass ID, GP balance, and tier status.
+
+---
+
+## 🤝 Three Stakeholders
+
+1. **Customer**: Gains portable financial reputation, lower borrowing rates, and cross-bank benefits earned through consistency.
+2. **Bank**: Reduces customer churn, increases deposit retention, and improves portfolio stability.
+3. **Merchant Ecosystem**: Offers exclusive access and perks to high-consistency customers through G-Market.
+
+---
+
+## 🔮 Vision & Roadmap
+
+* **Today**: Behavioral banking loyalty MVP for hackathon demonstration.
+* **Next**: Expanded bank + merchant ecosystem partnership integration.
+* **Future**: Cross-border portable financial reputation infrastructure across financial institutions.
+
+---
+
+## 💻 Local Development & Build
 
 ```bash
+# Install dependencies
 npm install
+
+# Run local development server
 npm run dev
+
+# Build production static export
+set GITHUB_ACTIONS=true&& npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
-
-Production build:
-
-```bash
-npm run build
-npm run start
-```
-
----
-
-## GitHub Pages Static Demo Architecture
-
-GitHub Pages is a static hosting platform. The GitHub Pages build uses:
-- **Next.js Static Export** (`output: "export"`, `basePath: "/5-merit-loyalty-mvp"`)
-- **Browser-Native Central Demo Engine** (`lib/demo-engine.ts`) with `localStorage` persistence (`MERIT_DEMO_ENGINE_STATE_V2`)
-- **Zero Runtime Server Dependencies**: No Node.js server or writable SQLite required during jury evaluation. All simulation actions execute deterministically in the client browser.
-
----
-
-## Jury-Facing Customer & Admin Experience
-
-- **Customer App (`/bank`)**: Interactive banking interface with real-time balance tracking, category re-classification, and rate advantages.
-- **MERIT Ecosystem (`/ecosystem`)**: Unified overview displaying verified streaks, multi-tier progression, budget allocation, Sarajevo summit pass celebration, and G-Market privileges.
-- **Bank Admin (`/bank-admin`)**: Live portfolio event stream audit log reflecting real-time simulation events triggered across customer sessions.
-- **G-Pass (`/ecosystem/passport`)**: Portable, zero-knowledge ecosystem identity credential preserving user reputation across financial partners.
-
----
-
-## Simulation Controls
-
-- **Simulate Month** → Advances month, increments streak (+1 mo), recalculates discretionary ratio, awards +250 GP, unlocks reward `r1`.
-- **Simulate Emergency Expense** → Injects $450 healthcare expense, classifies as **PROTECTED**, adjusts target baseline without penalty.
-- **Simulate Overspend** → Injects $380 discretionary expense, adjusts ratio, updates status to supportive *"Currently above discretionary target range"*.
-- **Simulate Transfer** → Injects matching $500 transfer pair, flags as internal transfer, excludes from behavioral progress.
-- **Reset Simulation** → Flushes `localStorage`, restores canonical initial demo state across all 19 routes for immediate repeatability.
+Open [http://localhost:3000](http://localhost:3000) to view locally.
