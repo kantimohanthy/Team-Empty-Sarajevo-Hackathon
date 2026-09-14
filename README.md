@@ -10,6 +10,8 @@ Built by Team EMPTY at Adria Hack Sarajevo 2026.
 
 `Next.js 14` · `React` · `TypeScript` · `Tailwind CSS` · `SQLite` · `Recharts` · `Framer Motion` · `GitHub Actions` · `GitHub Pages`
 
+![G-Core Behavioral Banking Prototype](./docs/images/gcore-ecosystem.png)
+
 ---
 
 ## 💡 The Problem
@@ -131,6 +133,56 @@ G-CORE SIDE (Exposed to loyalty ecosystem):
 
 ---
 
+## 📱 Product Walkthrough
+
+### 1. Customer Banking Experience
+
+![Customer Banking Dashboard](./docs/images/customer-dashboard.png)
+
+The customer-facing experience combines everyday banking activity with contextual behavioral progress and personalized goals (`./app/bank/page.tsx`).
+
+---
+
+### 2. Context-Aware Healthcare Protection
+
+![Protected Healthcare Expense](./docs/images/healthcare-protection.png)
+
+Protected healthcare expenses are automatically recognized and excluded from discretionary budget evaluation so unavoidable spending does not unfairly distort the customer's behavioral score.
+
+---
+
+### 3. Anti-Gaming Transfer Detection
+
+![Internal Transfer Detection](./docs/images/transfer-antigaming.png)
+
+Matching internal transfers between accounts are detected in real-time and excluded from behavioral progress to prevent artificial savings or activity inflation.
+
+---
+
+### 4. G-Core Ecosystem
+
+![G-Core Ecosystem](./docs/images/gcore-ecosystem.png)
+
+The G-Core layer translates behavioral consistency into GP points, tier progression, monthly goals, and reward eligibility (`./app/ecosystem/page.tsx`).
+
+---
+
+### 5. Bank Admin Experience
+
+![G-Core Bank Admin](./docs/images/bank-admin.png)
+
+The institutional bank console demonstrates behavioral portfolio segmentation, automated campaign fit rationale, and real-time event-level explainability (`./app/bank-admin/page.tsx`).
+
+---
+
+### 6. Portable G-Pass Passport & G-Market Perks
+
+| G-Pass Network Identity & Tier Progression | G-Market Merchant Perks Catalog |
+| :---: | :---: |
+| ![G-Pass Passport](./docs/images/gpass-passport.png) | ![G-Market Perks](./docs/images/gmarket.png) |
+
+---
+
 ## 🔍 What Is Real vs Simulated
 
 ### Implemented
@@ -196,22 +248,6 @@ Consider a customer earning **€1,000 / month**:
 2. **Internal Transfer (€500)**: Transferred out and back within 24 hours. Detected by anti-gaming engine (`excludedForGaming: true`). Excluded from savings progress.
 3. **Rent Payment (€400)**: Evaluated under **Payment Consistency** (25% weight).
 4. **Discretionary Spending (€150)**: Evaluated against discretionary target under **Budget Discipline** (30% weight).
-
----
-
-## 🖼️ Visual Documentation
-
-<!-- TODO: Add Customer App screenshot -->
-<!-- TODO: Add Bank Admin screenshot -->
-<!-- TODO: Add G-Core Ecosystem screenshot -->
-
-*Recommended visual sequence for review:*
-1. Customer App (`./app/bank/page.tsx`)
-2. Protected Healthcare Expense Banner
-3. Internal Transfer Exclusion Banner
-4. G-Core Status Dashboard (`./app/ecosystem/page.tsx`)
-5. G-Market Catalog & Claiming Modal
-6. Bank Admin Event Stream Console (`./app/bank-admin/page.tsx`)
 
 ---
 
