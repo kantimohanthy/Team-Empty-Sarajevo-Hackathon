@@ -1,63 +1,74 @@
-# G-Core Behavioral Engine
+# G-Core
 
-### Continued engineering development of the G-Core behavioral banking prototype
+### Behavioral Banking Loyalty Infrastructure
 
-G-Core began as a 24-hour FinTech prototype at Adria Hack Sarajevo 2026.
+> “We don't reward wealth. We reward financial consistency in context.”
 
-This repository explores the engineering questions required to evolve that prototype into a more rigorous, testable, explainable behavioral-finance system.
+Built by Team EMPTY at Adria Hack Sarajevo 2026.
 
-* **Hackathon Case Study Repository**: [kantimohanthy/Team-Empty-Sarajevo-Hackathon](https://github.com/kantimohanthy/Team-Empty-Sarajevo-Hackathon)
-* **Live Hackathon Demo**: [https://kantimohanthy.github.io/Team-Empty-Sarajevo-Hackathon/](https://kantimohanthy.github.io/Team-Empty-Sarajevo-Hackathon/)
+[**🌐 Live GitHub Pages Demo**](https://kantimohanthy.github.io/Team-Empty-Sarajevo-Hackathon/)
 
-`Next.js 14` · `TypeScript 5` · `Vitest` · `Tailwind CSS` · `SQLite` · `Recharts`
+`Next.js 14` · `React` · `TypeScript` · `Tailwind CSS` · `SQLite` · `Recharts` · `Framer Motion` · `GitHub Actions` · `GitHub Pages`
 
----
-
-## 🎯 1. Project Purpose
-
-Traditional bank loyalty programs are typically tied to spending volume, credit card debt, or absolute account balances. G-Core investigates an alternative paradigm: **Can financial consistency — evaluated relative to personal baselines — serve as an explainable loyalty signal?**
-
-This repository focuses on technical evolution after the hackathon:
-- Modularizing domain evaluation logic.
-- Establishing automated test suites for behavioral rules.
-- Introducing model versioning (`v0.1-hackathon-baseline`) and reason codes.
-- Documenting data privacy boundaries between banks and loyalty networks.
-- Formulating research frameworks for algorithmic fairness and longitudinal modeling.
+![G-Core Behavioral Banking Prototype](./docs/images/gcore-ecosystem.png)
 
 ---
 
-## 🏗️ 2. System Architecture
+## 💡 The Problem
 
-G-Core uses a multi-tier pipeline to process raw transactions into explainable behavioral outcomes:
+Many banking loyalty programs are driven by transaction volume, card usage, product engagement, or account value, while providing limited recognition for consistent financial behavior.
+
+**G-Core** explores whether financial consistency — measured within a customer's own historical baselines and personal financial context — can serve as a meaningful loyalty signal instead.
+
+*Note: This repository is a hackathon prototype demonstrating an alternative loyalty concept. It is not an empirical claim that traditional loyalty models are universally flawed or that this prototype has been scientifically validated across institutional cohorts.*
+
+---
+
+## 🛠️ What We Built
+
+Confirmed features implemented in this repository:
+
+* **Interactive Customer Banking Interface**: Explore real-time budget tracking, categorical spending breakdowns, and personalized goals (`./app/bank/page.tsx` and `./app/ecosystem/page.tsx`).
+* **5-Dimension Deterministic Behavioral Engine**: Calculates an overall behavioral evaluation score based on five weighted consistency metrics (`./lib/server/behavior-engine.ts`).
+* **Protected Healthcare Expense Filter**: Identifies protected categories (such as a protected healthcare expense) so that unavoidable health expenses do not distort discretionary budget scoring.
+* **Anti-Gaming Matching-Transfer Filter**: Detects same-customer internal transfers between accounts and excludes matching inflow/outflow pairs from savings/progress metrics (`./lib/server/anti-gaming-engine.ts`).
+* **Personalized Goals & Reward Eligibility Engine**: Dynamically matches customers to reward campaigns based on consistency criteria rather than spending thresholds (`./lib/server/reward-engine.ts`).
+* **G-Core Points (GP) & Tier Progression**: Accrues GP for goal milestones and advances network tiers from Member up to Diamond (`./lib/server/gcore-engine.ts`).
+* **G-Market Perks Catalog & Claiming System**: Enables customers to redeem GP for exclusive perks, access passes, and experiences with real-time inventory scarcity tracking.
+* **Pseudonymous G-Pass Identity Hashing**: Generates a deterministic SHA-256 pseudonymous identifier (`G-HEXSHA256`) to demonstrate a prototype portability concept for pseudonymous loyalty status across participating institutions.
+* **Bank Admin Intelligence Console**: Real-time event stream, behavioral portfolio segmentation, and campaign fit audit log (`./app/bank-admin/page.tsx`).
+* **Interactive Simulation Engine**: Triggerable interactive actions to simulate month completion, healthcare expenses, internal transfers, and bank-switching live in the browser.
+* **Browser-Side Static Demo Mode**: Zero-backend static state engine with `localStorage` persistence, allowing the full app to run statically on GitHub Pages.
+
+---
+
+## 🔄 Product Flow
 
 ```
-Bank Transactions
-  ➔ Categorization & Classification
-  ➔ Context Detection (Healthcare Protection)
-  ➔ Anti-Gaming Filtering (Internal Transfer Pairing)
-  ➔ 5-Dimension Consistency Evaluation
-  ➔ Reason Code & Status Generation
-  ➔ GP Balance & Tier Ledger Update
+Banking Activity
+  ➔ Context Detection
+  ➔ Anti-Gaming Filtering
+  ➔ Behavioral Features
+  ➔ Behavioral Evaluation
+  ➔ Personalized Goals
+  ➔ Rewards + GP
+  ➔ G-Core Status
 ```
 
-The system separates bank-side transactional data processing from shared ecosystem status. See [`./docs/data-boundary.md`](./docs/data-boundary.md) for detailed data boundary specifications.
+1. **Banking Activity**: Daily transactions, recurring bill payments, and savings transfers occur at the customer's primary bank.
+2. **Context Detection**: Categorizes transactions into essential, discretionary, or protected categories (e.g., healthcare).
+3. **Anti-Gaming Filtering**: Scans candidate transactions for matching opposite-direction internal transfers to filter out artificial activity.
+4. **Behavioral Features**: Extracts 5 normalized behavioral metrics relative to 3-month personal historical medians.
+5. **Behavioral Evaluation**: Evaluates overall consistency using an explainable, weighted scoring model.
+6. **Personalized Goals**: Sets dynamic monthly targets and evaluates completion status (`ON_TRACK`, `AT_RISK`, `ACHIEVED`).
+7. **Rewards + GP**: Consistent habits earn GP points and unlock targeted partner offers.
+8. **G-Core Status**: Updates the customer's pseudonymous G-Pass network status, simulating how earned tier standing could be maintained across network institutions under a shared ecosystem concept.
 
 ---
 
-## ⚙️ 3. Behavioral Engine
+## 📊 Behavioral Model
 
-The domain engine evaluates financial activity across normalized metrics rather than raw account balance magnitude. 
-
-Core evaluation code resides in:
-* [`./lib/domain/behavior.ts`](./lib/domain/behavior.ts) — Pure domain evaluation engine.
-* [`./lib/domain/model-metadata.ts`](./lib/domain/model-metadata.ts) — Model versioning and reason code definitions.
-* [`./lib/server/behavior-engine.ts`](./lib/server/behavior-engine.ts) — Server execution pipeline wrapper.
-
----
-
-## 📊 4. Current Deterministic Model (`v0.1-hackathon-baseline`)
-
-The current evaluation logic uses five weighted dimensions:
+The core evaluation logic uses five weighted dimensions:
 
 | Dimension | Weight | Description |
 | :--- | :---: | :--- |
@@ -67,195 +78,266 @@ The current evaluation logic uses five weighted dimensions:
 | **Liquidity Resilience** | `15%` | Maintaining a positive account buffer without overdraft events |
 | **Goal Consistency** | `10%` | Multi-month streak adherence and milestone progress |
 
-```typescript
-export const BEHAVIOR_MODEL_VERSION = "v0.1-hackathon-baseline";
-```
-
 > [!IMPORTANT]
-> **Prototype Parameter Note**: These weights are baseline design parameters selected for the hackathon MVP. They are not empirically calibrated risk coefficients or credit-scoring models. G-Core evaluates behavioral consistency for rewards, not credit default risk.
+> **Prototype Note**: These weights are design parameters selected for the hackathon MVP. They are not empirically calibrated banking-risk coefficients or credit-scoring models. G-Core is a behavioral evaluation and reward-selection layer, not a credit score.
 
 ---
 
-## 🛡️ 5. Anti-Gaming Logic
+## 🛡️ Context-Aware Examples
 
-To prevent artificial manipulation (such as cycling money between accounts to fake savings behavior), G-Core implements automated same-day internal transfer matching (`./lib/server/anti-gaming-engine.ts`):
+### 1. Healthcare Expense Protection
+When a customer incurs an unexpected healthcare expense (e.g., €450 healthcare expense), the context engine flags the transaction as `protectedFlag: true`. The expense is excluded from discretionary budget calculations so the customer is not unfairly penalized for an essential health event.
 
-1. Scans candidate transactions matching internal transfer keywords or savings categories.
-2. Identifies inflow/outflow pairs of matching magnitude (`Δ <= €0.01`) occurring close in time (`<= 24 hours`).
-3. Flags both legs as `excludedForGaming: true`, removing them from savings progress and discretionary spend counts.
+### 2. Internal Transfer Anti-Gaming
+If a user transfers €500 from Checking to Savings and shortly after transfers €500 back to Checking, the anti-gaming engine detects the matching magnitude and opposite direction within the transfer window. Both legs are assigned `excludedForGaming: true` and excluded from savings progress metrics.
 
 ---
 
-## 💡 6. Explainability & Reason Codes
+## 🏗️ Architecture & Privacy Boundary
 
-Every evaluation produces human-readable reason codes alongside numerical metrics to ensure complete transparency:
-
-```typescript
-export type ReasonCode =
-  | "PROTECTED_HEALTHCARE_EXPENSE"
-  | "INTERNAL_TRANSFER_EXCLUDED"
-  | "BUDGET_WITHIN_BASELINE"
-  | "DISCRETIONARY_OVERSPEND_EXCEEDED"
-  | "PAYMENT_CONSISTENT"
-  | "SAVINGS_TARGET_MET"
-  | "UNKNOWN_CATEGORY_FALLBACK"
-  | "ZERO_TRANSACTION_STATE";
+```mermaid
+flowchart TD
+    A[Bank Transactions] --> B[Classification]
+    B --> C[Context Detection]
+    C --> D[Anti-Gaming Rules]
+    D --> E[Behavioral Features]
+    E --> F[5-Dimension Evaluation]
+    F --> G[Goals]
+    F --> H[Reward Eligibility]
+    H --> I[G-Core]
+    I --> J[G-Pass]
+    I --> K[GP]
+    I --> L[Tier Status]
+    I --> M[G-Market]
 ```
 
-Example output for a protected healthcare expense:
-```json
-{
-  "code": "PROTECTED_HEALTHCARE_EXPENSE",
-  "message": "Healthcare expense recognized as protected and excluded from discretionary budget penalty."
-}
-```
-
----
-
-## 🔒 7. Data Boundaries & Privacy
-
-G-Core is designed around strict privacy separation:
-
-* **Bank Boundary**: PII, balances, raw transactions, merchant strings, and receipt details stay 100% inside the financial institution.
-* **G-Core Layer**: Only pseudonymous G-Pass hashes (`G-HEXSHA256`), GP point deltas, status tiers, and generic reason codes are shared with the loyalty network.
-
-See [`./docs/data-boundary.md`](./docs/data-boundary.md) for full architectural specifications.
-
----
-
-## 🧪 8. Testing Strategy
-
-Behavioral rules are verified using Vitest unit tests in [`./lib/domain/__tests__/behavior-engine.test.ts`](./lib/domain/__tests__/behavior-engine.test.ts).
-
-Key test scenarios:
-1. Protected healthcare expenses do not distort discretionary budget scoring.
-2. Matching internal transfer pairs are detected and excluded from savings progress.
-3. Ordinary discretionary spending is included correctly.
-4. Net savings contributions are accurately computed.
-5. GP awards are idempotent and not duplicated for the same milestone.
-6. Tier thresholds progress correctly across history months.
-7. Unknown merchant/category fallbacks execute safely.
-8. Zero transaction states return valid outputs without crashing.
-9. Negative or NaN monetary inputs are sanitized safely.
-10. Deterministic inputs produce 100% reproducible outputs.
-
-Run the test suite:
-```bash
-npm run test
-```
-
----
-
-## ⚖️ 9. Fairness Questions
-
-Evaluating financial behavior carries risks of algorithmic bias if lower-income or thin-file cohorts are evaluated against unsuitable baselines.
-
-Key open research topics documented in [`./docs/fairness.md`](./docs/fairness.md):
-- Relative vs. absolute financial capacity.
-- Disparate impact across income brackets.
-- Categorical protection for unavoidable life costs.
-- Cold-start handling for thin-file accounts.
-
----
-
-## 📈 10. Longitudinal Modeling Roadmap
-
-Future iterations aim to expand from monthly static evaluation to multi-month time-series modeling (3, 6, 12, and 24 months):
-- Rolling payment consistency indices.
-- Financial shock recovery rates.
-- Prospective predictive models (Gradient Boosting, Anomaly Detection, HDBSCAN clustering, Contextual Bandits).
-
-See [`./docs/longitudinal-modeling.md`](./docs/longitudinal-modeling.md) for research roadmap details.
-
----
-
-## ❓ 11. Research Questions
-
-1. **Baseline Adaptation**: How quickly should personal spending baselines adjust to lifestyle or income shifts without losing signal quality?
-2. **Game-Theoretic Resilience**: Can behavioral reward models remain resilient against adversarial optimization without introducing intrusive oversight?
-3. **Cross-Institutional Portability**: How can loyalty status survive bank switching while preserving complete zero-leakage privacy for institutional transaction data?
-
----
-
-## 🔌 12. API Architecture
-
-Next.js API routes provide SQLite-backed server endpoints for institutional integration testing:
-* `POST /api/behavior/evaluate` — Executes 5-dimension evaluation for a customer.
-* `POST /api/gcore/claim` — Claims a G-Market item with tier and GP validation.
-* `POST /api/simulation/transfer` — Simulates an internal account transfer.
-* `POST /api/simulation/emergency` — Simulates a protected healthcare expense.
-* `POST /api/simulation/switch-bank` — Demonstrates pseudonymous status portability.
-
----
-
-## 📁 13. Repository Structure
+### Privacy Boundary
 
 ```
-app/                      # Next.js 14 App Router (pages & API endpoints)
+BANK SIDE (Stays inside financial institution):
+  - Customer identity & PII
+  - Account balances
+  - Raw transaction logs
+  - Merchant names & timestamps
+
+G-CORE SIDE (Exposed to loyalty ecosystem):
+  - Pseudonymous G-Pass ID (e.g., G-8F3A9C10)
+  - Accumulated GP point balance & deltas
+  - Network status tier (Member ➔ Diamond)
+  - Reward eligibility flags
+  - Ecosystem tenure months
+```
+
+> [!NOTE]
+> The intended production architecture keeps raw banking data bank-side and exposes only minimum derived ecosystem state to G-Core.
+
+---
+
+## 📱 Product Walkthrough
+
+### 1. Customer Banking Experience
+
+![Customer Banking Dashboard](./docs/images/customer-dashboard.png)
+
+The customer-facing experience combines everyday banking activity with contextual behavioral progress and personalized goals (`./app/bank/page.tsx`).
+
+---
+
+### 2. Context-Aware Healthcare Protection
+
+![Protected Healthcare Expense](./docs/images/healthcare-protection.png)
+
+Protected healthcare expenses are automatically recognized and excluded from discretionary budget evaluation so unavoidable spending does not unfairly distort the customer's behavioral score.
+
+---
+
+### 3. Anti-Gaming Transfer Detection
+
+![Internal Transfer Detection](./docs/images/transfer-antigaming.png)
+
+Matching internal transfers between accounts are detected in real-time and excluded from behavioral progress to prevent artificial savings or activity inflation.
+
+---
+
+### 4. G-Core Ecosystem
+
+![G-Core Ecosystem](./docs/images/gcore-ecosystem.png)
+
+The G-Core layer translates behavioral consistency into GP points, tier progression, monthly goals, and reward eligibility (`./app/ecosystem/page.tsx`).
+
+---
+
+### 5. Bank Admin Experience
+
+![G-Core Bank Admin](./docs/images/bank-admin.png)
+
+The institutional bank console demonstrates behavioral portfolio segmentation, automated campaign fit rationale, and real-time event-level explainability (`./app/bank-admin/page.tsx`).
+
+---
+
+### 6. Portable G-Pass Passport & G-Market Perks
+
+| G-Pass Network Identity & Tier Progression | G-Market Merchant Perks Catalog |
+| :---: | :---: |
+| ![G-Pass Passport](./docs/images/gpass-passport.png) | ![G-Market Perks](./docs/images/gmarket.png) |
+
+---
+
+## 🔍 What Is Real vs Simulated
+
+### Implemented
+* Complete 5-dimension deterministic behavioral evaluation engine (`./lib/server/behavior-engine.ts`).
+* Automated same-day internal transfer anti-gaming rule (`./lib/server/anti-gaming-engine.ts`).
+* Essential vs. discretionary transaction classification rules (`./lib/server/classification-engine.ts`).
+* Pseudonymous G-Pass hash generator (`./lib/server/gcore-engine.ts`).
+* G-Market perk catalog and item claim transaction system (`./lib/server/gcore-engine.ts`).
+* Client-side state simulation engine with `localStorage` persistence (`./lib/demo-engine.ts`).
+* Interactive bank-switching simulation demonstrating local point reset vs. network status preservation (`./app/ecosystem/passport/page.tsx`).
+* Responsive Next.js 14 frontend pages with static export support (`next.config.js`).
+
+### Simulated
+* Demo customer transaction records ("Alex Mercer" dataset in `./lib/mock-data.ts`).
+* Bank-wide portfolio analytics on `./app/bank-admin/page.tsx` (enrolled cohort size, churn rates, offer redemption rates).
+* Multi-bank network scale metrics on `./app/network/page.tsx`.
+* Merchant partner ecosystem availability and reward item inventory counts.
+
+### Production Requirements
+To deploy G-Core in a production banking environment, the following infrastructure layers would be required:
+1. **Core Banking / Open Banking Integration**: Read-only OAuth2 / Open Banking PSD2 API connectors.
+2. **Authentication & Authorization**: Enterprise IAM, mTLS, and RBAC controls.
+3. **Encryption & Key Management**: Hardware Security Modules (HSM) for G-Pass salt/key management.
+4. **Privacy & Regulatory Assessment**: GDPR compliance reviews and Data Protection Impact Assessments (DPIA) as the primary European privacy framework (with CCPA evaluation where applicable in relevant U.S. deployments).
+5. **Security & Compliance**: Third-party code audits and applicable security and compliance assurance depending on deployment context.
+6. **Fairness & Model Validation**: Statistical calibration of behavioral weights across diverse demographic cohorts.
+7. **Institutional Audit Logging**: Tamper-evident institutional audit logging where required for compliance.
+
+---
+
+## 🧠 Why Deterministic Instead of ML?
+
+The MVP intentionally uses **deterministic and explainable rules** rather than a black-box machine-learning model. During a 24-hour hackathon, labeled longitudinal financial outcome data was not available to train or validate a predictive ML model responsibly.
+
+Advantages of a deterministic rule-based approach:
+* **Fully Auditable**: Every score, rule exclusion, and reward decision can be inspected line-by-line.
+* **Transparent to Customers**: Customers can clearly understand *why* a goal was met or why a healthcare expense was protected.
+* **Reproducible**: Given identical transactions, the engine yields identical evaluation results without model drift.
+* **Strong Baseline**: Establishes a clean benchmark for future probabilistic modeling.
+
+---
+
+## 🔮 Future Modeling Roadmap
+
+As longitudinal customer dataset size grows, future research iterations of G-Core could evaluate predictive modeling techniques:
+
+* **Supervised Classifiers & Embeddings**: Supervised transaction classification using lightweight classifiers, gradient boosting, or text embeddings/classifiers (reserving complex transformer models for scenarios where data scale and accuracy requirements justify them).
+* **Gradient Boosting (LightGBM / XGBoost)**: Predicting monthly budget variance or discretionary overspend likelihood based on time-series features.
+* **Anomaly Detection**: Unsupervised isolation forests to detect novel spending anomalies or complex multi-account gaming patterns.
+* **HDBSCAN Clustering**: Exploratory behavioral segmentation of customer spending patterns to identify emerging financial personas.
+* **Contextual Bandits**: Reinforcement learning algorithms to optimize personalized reward recommendations based on historical conversion rates.
+* **SHAP / Reason Codes**: Explanatory frameworks to ensure any future predictive ML models remain transparent and interpretable.
+
+> *None of these predictive machine learning models are currently implemented in this prototype; they represent prospective research directions for future data-rich deployments.*
+
+---
+
+## 📝 Worked Example
+
+Consider a customer earning **€1,000 / month**:
+
+1. **Healthcare Expense (€450)**: Recognized as a protected healthcare category (`protectedFlag: true`). Excluded from discretionary budget calculations so discretionary spending target is not breached.
+2. **Internal Transfer (€500)**: Transferred out and back within 24 hours. Detected by anti-gaming engine (`excludedForGaming: true`). Excluded from savings progress.
+3. **Rent Payment (€400)**: Evaluated under **Payment Consistency** (25% weight).
+4. **Discretionary Spending (€150)**: Evaluated against discretionary target under **Budget Discipline** (30% weight).
+
+---
+
+## 💻 Core Product Surfaces & Routes
+
+| Surface | Route | Description |
+| :--- | :--- | :--- |
+| **Customer Bank App** | [`/bank`](./app/bank/page.tsx) | XYZ Bank customer account overview, card controls, and recent activity. |
+| **G-Core Ecosystem** | [`/ecosystem`](./app/ecosystem/page.tsx) | Behavioral score breakdown, monthly goals, and interactive simulation controls. |
+| **G-Pass Passport** | [`/ecosystem/passport`](./app/ecosystem/passport/page.tsx) | Network tier progression, pseudonymous G-Pass identity, and bank-switch simulation. |
+| **G-Market Perks** | [`/ecosystem/rewards`](./app/ecosystem/rewards/page.tsx) | Claimable merchant perks, access passes, and GP redemption interface. |
+| **Bank Admin Console** | [`/bank-admin`](./app/bank-admin/page.tsx) | Portfolio analytics, real-time audit log, and automated campaign fit rationale. |
+| **Merit Network Story** | [`/network`](./app/network/page.tsx) | Ecosystem architecture visualization and privacy boundary explainer. |
+
+---
+
+## 🎯 Start Here If Reviewing the Code
+
+If you are inspecting the repository logic, these are the core technical files:
+
+1. [`./lib/server/behavior-engine.ts`](./lib/server/behavior-engine.ts) — Implements the 5-dimension weighted evaluation model.
+2. [`./lib/server/anti-gaming-engine.ts`](./lib/server/anti-gaming-engine.ts) — Detects matching same-day internal transfers.
+3. [`./lib/server/gcore-engine.ts`](./lib/server/gcore-engine.ts) — Handles G-Pass generation, GP points ledger, and G-Market claims.
+4. [`./lib/server/classification-engine.ts`](./lib/server/classification-engine.ts) — Rules for transaction classification.
+5. [`./lib/server/pipeline.ts`](./lib/server/pipeline.ts) — Ingestion & evaluation pipeline orchestration.
+6. [`./lib/demo-engine.ts`](./lib/demo-engine.ts) — Client-side simulation state machine with `localStorage` fallback for static GitHub Pages export.
+
+---
+
+## 📁 Repository Structure
+
+```
+app/
+├── bank/                # XYZ Customer Bank app view
+├── bank-admin/          # Institutional staff analytics console
+├── ecosystem/           # G-Core customer loyalty dashboard & pages
+│   ├── activity/        # Categorized transaction log
+│   ├── goals/           # Monthly goal targets & breakdown
+│   ├── passport/        # G-Pass network identity & bank switch demo
+│   └── rewards/         # G-Market perk claim catalog
+├── network/             # Architecture overview & network metrics
+└── api/                 # Next.js API route handlers (SQLite server mode)
+
 lib/
-├── domain/               # Pure domain logic & interfaces
-│   ├── behavior.ts       # 5-dimension behavioral evaluation engine
-│   ├── model-metadata.ts # Model versioning & reason code definitions
-│   └── __tests__/        # Vitest behavioral test suite
-├── server/               # Server-side execution wrappers (SQLite integration)
-├── demo-engine.ts        # Client-side static demo state machine (localStorage)
-└── types.ts              # Shared TypeScript interfaces
-
-docs/                     # Engineering & Architecture Research Documentation
-├── data-boundary.md      # Bank vs. G-Core privacy boundary specification
-├── fairness.md           # Algorithmic fairness & bias analysis
-└── longitudinal-modeling.md # Time-series research roadmap
+├── server/              # Server-side core engines (behavior, anti-gaming, gcore)
+├── demo-engine.ts       # Browser-side static state machine & localStorage persistence
+├── demo-context.tsx      # React context provider for demo state
+├── gcore-context.tsx     # React context provider for G-Core network state
+├── mock-data.ts         # Initial seed dataset (Alex Mercer)
+└── types.ts             # Shared TypeScript interface definitions
 ```
 
 ---
 
-## 🚀 14. Engineering Roadmap
+## 🏆 Hackathon Context
 
-```
-v0.1 (Hackathon Baseline)
-  └── Deterministic 5-dimension rules & browser simulation engine
+* **Event**: Adria Hack Sarajevo 2026
+* **Dates**: September 12–13, 2026
+* **Track**: FinTech
+* **Build Duration**: 24 Hours
+* **Team**: Team EMPTY
 
-v0.2 (Current Development)
-  ├── Domain modularization & Vitest test suite
-  ├── Model versioning (v0.1-hackathon-baseline)
-  ├── Reason code generation & explainability infrastructure
-  └── Privacy boundary & fairness documentation
-
-v0.3 (Historical Rolling Windows)
-  └── Multi-month (3/6/12mo) time-series feature extraction
-
-v0.4 (Fairness & Baseline Calibration)
-  └── Income-normalized adaptive baselines & cold-start rules
-
-v0.5 (Bank API Abstraction Layer)
-  └── Standardized Open Banking PSD2 connector interfaces
-
-v0.6 (Longitudinal Dataset Research)
-  └── Empirical validation on anonymized historical transaction logs
-
-Future (Validated Predictive Models)
-  └── Calibrated machine learning models (LightGBM, SHAP explainability)
-```
+*Built from initial concept through architecture design, core evaluation engine implementation, and static web deployment within 24 hours.*
 
 ---
 
-## 🏆 15. Hackathon Origin
+## 👥 Team Attribution
 
-G-Core originated as a 24-hour FinTech hackathon prototype built by **Team EMPTY** at **Adria Hack Sarajevo 2026** (September 12–13, 2026).
+**Team EMPTY** developed G-Core during Adria Hack Sarajevo 2026.
 
-The hackathon submission repository, screenshots, and visual product presentation are preserved at:
-[https://github.com/kantimohanthy/Team-Empty-Sarajevo-Hackathon](https://github.com/kantimohanthy/Team-Empty-Sarajevo-Hackathon)
+*Individual contribution details can be added by team members.*
 
 ---
 
-## 💻 Local Development & Testing
+## ❓ Lessons & Open Questions
+
+1. **Fairness Across Income Levels**: How can behavioral loyalty systems ensure targets adapt fairly to varying income dynamics without penalizing lower-income accounts?
+2. **Behavioral Efficacy**: Which specific interventions (e.g., GP rewards vs. tier access) demonstrate the highest long-term engagement and deposit retention?
+3. **Ecosystem Economics**: What is the optimal fee/perk sharing model between partner banks and merchant networks to ensure sustainable alignment?
+
+---
+
+## 🚀 Local Development
 
 ```bash
 # Install dependencies
 npm install
 
-# Run Vitest unit tests
-npm run test
+# Run development server
+npm run dev
 
 # Run TypeScript type check
 npm run type-check
@@ -263,15 +345,14 @@ npm run type-check
 # Run Next.js linter
 npm run lint
 
-# Run development server
-npm run dev
-
-# Build production static export
+# Build static export for production deployment
 set GITHUB_ACTIONS=true&& npm run build
 ```
+
+Open [http://localhost:3000](http://localhost:3000) to view the app locally.
 
 ---
 
 ## ⚖️ Disclaimer
 
-*This repository is an ongoing engineering research prototype built for technical demonstration using simulated data. It is not a credit-scoring system, lending-decision system, financial advice product, or production banking platform.*
+*This repository is a hackathon prototype built for demonstration purposes using simulated demo data. It is not a credit-scoring system, lending-decision system, financial advice product, or production banking platform.*
