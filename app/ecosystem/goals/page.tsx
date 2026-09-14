@@ -122,7 +122,7 @@ export default function EcosystemGoalsPage() {
         </div>
 
         <p className="mt-4 text-xs text-navy-500 leading-relaxed">
-          Fully explainable and rules-based. Protected expenses (such as emergency medical care) are automatically excluded from discretionary behavior scoring.
+          Fully explainable and rules-based. Protected expenses (such as protected healthcare expenses) are automatically excluded from discretionary behavior scoring.
         </p>
       </Card>
     </div>
