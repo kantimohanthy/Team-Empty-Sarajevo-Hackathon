@@ -205,12 +205,12 @@ export default function BankAdminPage() {
               Behavioral Intelligence Console
             </h1>
             <p className="mt-1 text-xs text-xyz-ink-soft">
-              Aggregate portfolio metrics, customer risk segmentation, and contextual offer recommendation Engine.
+              Aggregate portfolio metrics, customer segmentation, and contextual offer recommendation engine (Simulated Hackathon Benchmark).
             </p>
           </div>
           <div className="inline-flex items-center gap-1.5 rounded-full bg-xyz-accent-soft px-3 py-1 text-xs font-semibold text-xyz-primary border border-xyz-accent/20">
             <ShieldCheck size={14} className="text-xyz-accent" />
-            Internal Staff Access Only
+            Internal Staff Demo View
           </div>
         </div>
 
@@ -220,7 +220,7 @@ export default function BankAdminPage() {
             icon={Users}
             label="Enrolled customers"
             value={bank.customersEnrolled.toLocaleString()}
-            sub="Active behavioral tracking"
+            sub="Simulated active cohort"
           />
           <StatCard
             icon={Activity}
@@ -232,13 +232,13 @@ export default function BankAdminPage() {
             icon={TrendingUp}
             label="Savings improvement"
             value={`+${bank.savingsImprovementPct}%`}
-            sub="vs unguided baseline"
+            sub="vs unguided baseline (demo)"
           />
           <StatCard
             icon={Repeat}
             label="Annualized churn"
             value={`${bank.churnProgramPct}%`}
-            sub={`vs ${bank.churnStandardPct}% standard cohort`}
+            sub={`vs ${bank.churnStandardPct}% standard cohort (demo)`}
           />
         </div>
 
@@ -399,7 +399,7 @@ export default function BankAdminPage() {
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
           <div className="rounded-xl border border-xyz-border bg-xyz-card p-6 shadow-2xs">
             <div className="text-xs font-bold uppercase tracking-wider text-xyz-ink-soft">
-              Retention &amp; Churn Impact
+              Simulated Cohort Retention &amp; Churn
             </div>
             <h3 className="mt-1 font-bold text-base text-xyz-ink">Annualized Churn Rate (%)</h3>
             <div className="mt-4 h-56 w-full">
